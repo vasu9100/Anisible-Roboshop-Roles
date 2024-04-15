@@ -1,6 +1,6 @@
 - name: Setup the MongoDB repo file
   copy:
-    src: /home/centos/Anisible-Roboshop-Roles/mongo.repo
+    src: mongo.repo
     dest: /etc/yum.repos.d/mongo.repo
 
 - name: Install MongoDB
