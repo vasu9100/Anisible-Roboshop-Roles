@@ -31,4 +31,4 @@
 
 - name: print net_stat output
   debug:
-    msg: "Updated Value: {{net_stat.stdout}}"  
+    msg: "Updated Value: {{net_stat.stdout_lines}}"  
