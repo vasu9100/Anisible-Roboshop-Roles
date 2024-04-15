@@ -1,6 +1,6 @@
 ---
-name: Installing {{component}}
-hosts: "{{component}}"
-become: yes
-roles:
-  "{{component}}"
+- name: Installing {{component}}
+  hosts: "{{component}}"
+  become: yes
+  roles:
+  - "{{component}}"
