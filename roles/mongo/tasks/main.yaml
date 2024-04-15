@@ -1,0 +1,38 @@
+---
+name: INSTALLING {{component}}
+hosts: "{{component}}"
+become: yes
+tasks:
+- name: Setup the MongoDB repo file
+  copy:
+    src: /home/centos/Anisible-Roboshop-Roles/mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Install MongoDB
+  dnf:
+    name: mongodb-org
+    state: present
+
+- name: Start MongoDB Service
+  Service:
+    name: mongod
+    state: started
+    enabled: yes
+- name: Updating listen address
+  replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+
+- name: Restarting MongoDB
+  Service:
+    name: mongod
+    state: restarted 
+
+- name: Netstat output
+  shell: netstat -lntp
+  register: net_stat
+
+- name: print net_stat output
+  debug:
+    msg: "Updated Value: {{net_stat.stdout}}"  
