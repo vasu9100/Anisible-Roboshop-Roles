@@ -1,13 +1,3 @@
----
-name: INSTALLING {{component}}
-hosts: "{{component}}"
-become: yes
-tasks:
-- name: Setup the MongoDB repo file
-  copy:
-    src: /home/centos/Anisible-Roboshop-Roles/mongo.repo
-    dest: /etc/yum.repos.d/mongo.repo
-
 - name: Install MongoDB
   dnf:
     name: mongodb-org
