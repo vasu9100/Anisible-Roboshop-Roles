@@ -25,10 +25,10 @@
     name: mongod
     state: restarted 
 
-- name: Netstat output
-  shell: netstat -lntp
-  register: net_stat
+- name: Execute netstat command
+  command: netstat -tuln
+  register: netstat_output
 
-- name: print net_stat output
+- name: Display netstat output
   debug:
-    msg: "Updated Value: {{net_stat.stdout_lines}}"  
+    msg: "{{ netstat_output.stdout_lines }}"
