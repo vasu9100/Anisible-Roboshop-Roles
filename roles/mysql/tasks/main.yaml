@@ -3,10 +3,10 @@
 
 - name:  COPYING MYSQL REPO
   copy:
-    src: mysql.repo
-    dest: /etc/yum.repos.d/mysql.repo
+    src: "{{component}}.repo"
+    dest: "/etc/yum.repos.d/{{component}}.repo"
 
-- name: install mysql server
+- name: install {{component}} server
   dnf:
     name: mysql-community-server
     state: present
@@ -17,7 +17,7 @@
     state: started
     enabled: true
 
-- name: CHANGING PASSWORD OF MYSQL
+- name: CHANGING PASSWORD OF {{component}}
   shell: "{{item}}"
   loop:
   - mysql_secure_installation --set-root-pass {{ MYSQL_PASS }}
