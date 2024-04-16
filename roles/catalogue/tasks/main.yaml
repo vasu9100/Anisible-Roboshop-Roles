@@ -45,6 +45,7 @@
   systemd:
     name: "{{ component }}"
     state: started
+    enabled: yes
 
 - name: COPY MONGO REPO FILE
   copy:
