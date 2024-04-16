@@ -12,7 +12,7 @@
 
 - name: Replace old hostname with new hostname (requires Ansible >= 2.4)
   replace:
-    path: "/etc/{{command:}}.conf"
+    path: "/etc/redis.conf"
     regexp: '127.0.0.1'
     replace: '0.0.0.0' 
 
