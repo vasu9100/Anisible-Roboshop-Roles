@@ -1,4 +1,4 @@
-- name: Setup the MongoDB repo file
+- name: Set up the MongoDB repository file
   copy:
     src: mongo.repo
     dest: /etc/yum.repos.d/mongo.repo
@@ -14,13 +14,13 @@
     state: started
     enabled: yes
 
-- name: Updating listen address
+- name: Update listen address
   replace:
     path: /etc/mongod.conf
     regexp: '127.0.0.1'
     replace: '0.0.0.0'
 
-- name: Restarting MongoDB
+- name: Restart MongoDB
   service:
     name: mongod
     state: restarted 
