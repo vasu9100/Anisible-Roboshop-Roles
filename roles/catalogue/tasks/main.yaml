@@ -62,4 +62,13 @@
 
 - name: Print Product COUNT
   debug:
-    msg: "Total Product_Count: {{ product_count.stdout_lines }}"    
+    msg: "Total Product_Count: {{ product_count.stdout_lines }}"
+
+- name: LOAD DATA INTO MONGODB
+  shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
+  when: product_count.stdout == "0" 
+
+- name: RESTART CATALOGUE SERVICE
+  systemd:
+    name: "{{ component }}"
+    state: restarted        
