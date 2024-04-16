@@ -13,7 +13,7 @@
 - name: Creating App directory
   file:
     path: /app
-    state: present   
+    state: directory  
 
 - name: Downloading App Code
   get_url:
