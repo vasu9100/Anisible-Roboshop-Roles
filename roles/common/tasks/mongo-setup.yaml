@@ -21,8 +21,8 @@
 
 - name: LOAD DATA INTO CATALOGUE MONGODB
   shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{ component }}.js"
-  when: component == "catalogue" and element_count.std_out == "0"
+  when: component == "catalogue" and element_count.stdout == "0"
 
 - name: LOAD DATA INTO USER MONGODB
   shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{ component }}.js"
-  when: user_element_count.std_out == "0"   
+  when: user_element_count.stdout == "0"   
