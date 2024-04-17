@@ -33,7 +33,7 @@
 
 - name: COPY SHIPPING SERVICE FILE
   copy:
-    src: "{{component}}"
+    src: "{{component}}.service"
     dest: "/etc/systemd/system/{{component}}.service"
 
 - name: RELOAD SYSTEMD DAEMON
