@@ -14,9 +14,9 @@
   when: component == "catalogue"
 
 - name: VERIFY USER PRODUCTS COUNT
-  command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.users.count()'
+  command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: element_count
-  when: component == "users"
+  when: component == "user"
 
 - name: Print Product COUNT
   debug:
