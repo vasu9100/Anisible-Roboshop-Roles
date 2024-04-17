@@ -9,20 +9,20 @@
     state: present
 
 - name: VERIFY CATALOGUE PRODUCTS COUNT
-  command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.products.count()'
+  command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.products.count()'
   register: element_count
   when: component == "catalogue"
 
 - name: VERIFY USER PRODUCTS COUNT
-  command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+  command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: user_element_count
   when: component == "user"
 
 
-- name: LOAD DATA INTO MONGODB
-  shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
-  when: component == "catalogue" and element_count == 0
+- name: LOAD DATA INTO CATALOGUE MONGODB
+  shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{ component }}.js"
+  when: component == "catalogue" and element_count.std_out == "0"
 
-- name: LOAD DATA INTO MONGODB
-  shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
-  when: user_element_count == "0"   
+- name: LOAD DATA INTO USER MONGODB
+  shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{ component }}.js"
+  when: user_element_count.std_out == "0"   
