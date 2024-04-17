@@ -5,7 +5,7 @@
   - dnf module enable nodejs:18 -y
   - dnf install nodejs -y
 
-- name: "app-setup {{component}}"
+- name: app-setup {{component}}
   import_role:
     name: common
     task_from: app-setup
