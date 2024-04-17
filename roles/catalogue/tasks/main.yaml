@@ -27,3 +27,8 @@
   systemd:
     name: "{{ component }}"
     state: restarted        
+
+- name: mongo-setup
+  import_role:
+    name: common
+    tasks_from: mongo-setup
