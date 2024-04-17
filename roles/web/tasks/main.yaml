@@ -7,11 +7,6 @@
   ansible.builtin.command: date +%Y-%m-%d_%H-%M-%S
   register: current_time_result
 
-- name: Enable and Start NGINX
-  ansible.builtin.service:
-    name: nginx
-    state: started
-    enabled: yes
 
 - name: Download Frontend Code
   get_url:
@@ -45,4 +40,8 @@
     dest: /etc/nginx/default.d/roboshop.conf
   notify: Restart NGINX Server  
 
-
+- name: Enable and Start NGINX
+  ansible.builtin.service:
+    name: nginx
+    state: started
+    enabled: yes
