@@ -6,10 +6,10 @@
   - dnf install nodejs -y
 
 - name: "app-setup {{component}}"
-  import:
+  import_role:
     name: common
     task_from: app-setup
-      
+
 - name: Npm Installation
   shell: npm install
   args:
