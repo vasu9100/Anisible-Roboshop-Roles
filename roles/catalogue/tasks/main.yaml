@@ -1,19 +1,12 @@
-- name: disbaling and old node js and enabling new nodejs
-  shell: "{{ item }}"
-  loop:
-  - dnf module disable nodejs -y
-  - dnf module enable nodejs:18 -y
-  - dnf install nodejs -y
-
 - name: app setup {{component}}
   import_role:
     name: common
     tasks_from: app-setup
 
-- name: Npm Installation
-  shell: npm install
-  args:
-    chdir: /app
+- name: Nodejs setup
+  import_role:
+    name: common
+    tasks_from: nodejs-setup 
 
 - name: copying {{ component }} serive file
   copy:
