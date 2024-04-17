@@ -1,4 +1,4 @@
-- name: RELOAD SYSTEMD DAEMON
+- name: RELOAD SYSTEMD DAEMON of {{component}}
   systemd:
     daemon_reexec: yes    
 
@@ -8,7 +8,7 @@
     state: started
     enabled: yes
 
-- name: RESTART CATALOGUE SERVICE
+- name: RESTART {{component}} SERVICE
   systemd:
     name: "{{ component }}"
     state: restarted 
