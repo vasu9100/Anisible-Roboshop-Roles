@@ -20,7 +20,7 @@
 
 - name: Print Product COUNT
   debug:
-    msg: "Total element_count_Count: {{ element_count.stdout_lines }}"
+    msg: "Total element_count_Count: {{ element_count }}"
 
 - name: LOAD DATA INTO MONGODB
   shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
