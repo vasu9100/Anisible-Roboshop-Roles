@@ -1,0 +1,14 @@
+- name: RELOAD SYSTEMD DAEMON
+  systemd:
+    daemon_reexec: yes    
+
+- name: Reaload and start the {{ component }}
+  systemd:
+    name: "{{ component }}"
+    state: started
+    enabled: yes
+
+- name: RESTART CATALOGUE SERVICE
+  systemd:
+    name: "{{ component }}"
+    state: restarted 

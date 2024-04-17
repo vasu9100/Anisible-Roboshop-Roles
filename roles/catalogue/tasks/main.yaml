@@ -12,23 +12,13 @@
   copy:
     src: catalogue.service
     dest: "/etc/systemd/system/{{ component }}.service"
-
-- name: RELOAD SYSTEMD DAEMON
-  systemd:
-    daemon_reexec: yes    
-
-- name: Reaload and start the {{ component }}
-  systemd:
-    name: "{{ component }}"
-    state: started
-    enabled: yes
-
-- name: RESTART CATALOGUE SERVICE
-  systemd:
-    name: "{{ component }}"
-    state: restarted        
-
+       
 - name: mongo-setup
   import_role:
     name: common
     tasks_from: mongo-setup
+
+- name: APP START SETUP 
+  import_role:
+    name: common
+    tasks_from: systemd-setup   

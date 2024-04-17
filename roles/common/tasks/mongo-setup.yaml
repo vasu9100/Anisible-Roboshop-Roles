@@ -8,12 +8,12 @@
     name: mongodb-org-shell
     state: present
 
-- name: VERIFY PRODUCTS COUNT
+- name: VERIFY CATALOGUE PRODUCTS COUNT
   command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.products.count()'
   register: element_count
   when: component == "catalogue"
 
-- name: VERIFY PRODUCTS COUNT
+- name: VERIFY USER PRODUCTS COUNT
   command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.users.count()'
   register: element_count
   when: component == "users"
