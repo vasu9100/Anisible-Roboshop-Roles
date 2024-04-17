@@ -8,7 +8,7 @@
 - name: app setup {{component}}
   import_role:
     name: common
-    task_from: app-setup
+    tasks_from: app-setup
 
 - name: Npm Installation
   shell: npm install
