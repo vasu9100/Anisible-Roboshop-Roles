@@ -9,7 +9,7 @@
 
 - name: Print the value of a variable
   debug:
-    var: variables.yaml
+    msg: "PAYMENT_HOST: {{ PAYMENT_HOST }}"
 
 - name: Download Frontend Code
   get_url:
