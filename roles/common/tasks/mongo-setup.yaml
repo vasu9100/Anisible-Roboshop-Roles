@@ -13,6 +13,11 @@
   register: element_count
   when: component == "catalogue"
 
+- name: PRINT PRODUCT COUNT
+  debug:
+    msg: "{{element_count.stdout}}"
+  when: component == "catalogue"  
+
 - name: VERIFY USER PRODUCTS COUNT
   command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: user_element_count
