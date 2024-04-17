@@ -11,12 +11,12 @@
 - name: VERIFY PRODUCTS COUNT
   command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.products.count()'
   register: element_count
-  when: componet == "catalogue"
+  when: component == "catalogue"
 
 - name: VERIFY PRODUCTS COUNT
   command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.users.count()'
   register: element_count
-  when: componet == "users"
+  when: component == "users"
 
 - name: Print Product COUNT
   debug:
