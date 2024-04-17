@@ -15,13 +15,14 @@
 
 - name: VERIFY USER PRODUCTS COUNT
   command: mongo --host mongo.gonepudirobot.online --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
-  register: element_count
+  register: user_element_count
   when: component == "user"
 
-- name: Print Product COUNT
-  debug:
-    msg: "Total element_count_Count: {{ element_count }}"
 
 - name: LOAD DATA INTO MONGODB
   shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
   when: element_count == "0" 
+
+- name: LOAD DATA INTO MONGODB
+  shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
+  when: user_element_count == "0"   
