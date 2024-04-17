@@ -25,4 +25,4 @@
 
 - name: LOAD DATA INTO USER MONGODB
   shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{ component }}.js"
-  when: user_element_count.stdout == "0"   
+  when: component == "user" and user_element_count.stdout == "0"   
