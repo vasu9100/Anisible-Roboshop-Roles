@@ -8,26 +8,25 @@
     name: mongodb-org-shell
     state: present
 
-- name: VERIFY CATALOGUE PRODUCTS COUNT
-  command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("{{component}}"); db.products.count()'
-  register: element_count
+- name: Get the catalogue entries count
+  ansible.builtin.shell: mongo --host {{ MONGODB_HOST }} --quiet --eval 'db = db.getSiblingDB("catalogue"); db.products.count()'
+  register: products_count
   when: component == "catalogue"
 
-- name: PRINT PRODUCT COUNT
+- name: Print Product Count
   debug:
-    msg: "{{element_count.stdout}}"
+    msg: "{{ products_count.stdout }}"
   when: component == "catalogue"  
 
-- name: VERIFY USER PRODUCTS COUNT
-  command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
+- name: Verify User Products Count
+  ansible.builtin.shell: mongo --host {{ MONGODB_HOST }} --quiet --eval 'db = db.getSiblingDB("users"); db.users.count()'
   register: user_element_count
   when: component == "user"
 
+- name: Load data into catalogue MongoDB
+  ansible.builtin.shell: "mongo --host {{ MONGODB_HOST }} < /app/schema/{{ component }}.js"
+  when: component == "catalogue" and products_count.stdout == "0"
 
-- name: LOAD DATA INTO CATALOGUE MONGODB
-  shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{ component }}.js"
-  when: component == "catalogue" and element_count.stdout == "0"
-
-- name: LOAD DATA INTO USER MONGODB
-  shell: "mongo --host {{MONGODB_HOST}} < /app/schema/{{ component }}.js"
-  when: component == "user" and user_element_count.stdout == "0"   
+- name: Load data into user MongoDB
+  ansible.builtin.shell: "mongo --host {{ MONGODB_HOST }} < /app/schema/{{ component }}.js"
+  when: component == "user" and user_element_count.stdout == "0"
