@@ -21,7 +21,7 @@
 
 - name: LOAD DATA INTO MONGODB
   shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
-  when: element_count == "0" 
+  when: component == "catalogue" and element_count == 0
 
 - name: LOAD DATA INTO MONGODB
   shell: "mongo --host mongo.gonepudirobot.online < /app/schema/{{ component }}.js"
