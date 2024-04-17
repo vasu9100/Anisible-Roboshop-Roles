@@ -1,68 +1,20 @@
-- name: INSTALLING MAVEN
-  dnf:
-    name: maven
-    state: present
+- name: app setup {{component}}
+  import_role:
+    name: common
+    tasks_from: app-setup
 
-- name: CONFIGURE APPLICATION USER
-  user:
-    name: roboshop
+- name: Maven setup
+  import_role:
+    name: common
+    tasks_from: java-setup    
 
-- name: CREATE APP DIRECTORY
-  file:
-    path: /app
-    state: directory
+- name: START {{component}}
+  import_role: 
+    name: common
+    tasks_from: systemd-setup
 
-- name: DOWNLOAD APPLICATION CODE INTO APP DIRECTORY
-  get_url:
-    url: "https://roboshop-builds.s3.amazonaws.com/{{component}}.zip"
-    dest: /tmp
+- name: mysql-setup
+  import_role:
+    name: common
+    tasks_from: mysql-setup    
 
-- name: UNZIP APP CODE
-  unarchive:
-    src: "/tmp/{{component}}.zip"
-    dest: /app
-    remote_src: yes
-
-- name: INSTALL MAVEN PACKAGES
-  shell: "{{ item }}"
-  loop:
-    - mvn clean package
-    - mv target/shipping-1.0.jar shipping.jar
-  args:
-    chdir: /app
-
-- name: COPY SHIPPING SERVICE FILE
-  copy:
-    src: "{{component}}.service"
-    dest: "/etc/systemd/system/{{component}}.service"
-
-- name: RELOAD SYSTEMD DAEMON
-  systemd:
-    daemon_reexec: yes
-
-- name: START SHIPPING SERVICE
-  systemd:
-    name: "{{component}}"
-    state: started
-
-- name: MYSQL INSTALLATION
-  dnf:
-    name: mysql
-    state: present
-
-- name: check cities schema exists or not
-  ansible.builtin.command:  mysql -h mysql.gonepudirobot.online -uroot -p{{ MYSQL_PASS }} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
-  register: schema
-
-- name: print output
-  ansible.builtin.debug:
-    msg: "schema output: {{ schema }}"
-
-- name: load cities data
-  ansible.builtin.shell: "mysql -h mysql.gonepudirobot.online -uroot -p{{ MYSQL_PASS }}  < /app/schema/shipping.sql"
-  when: schema.stdout != "1"
-
-- name: RESTART SHIPPING SERVICE
-  systemd:
-    name: shipping
-    state: restarted

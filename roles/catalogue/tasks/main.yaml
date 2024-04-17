@@ -8,10 +8,7 @@
     name: common
     tasks_from: nodejs-setup 
 
-- name: copying {{ component }} serive file
-  copy:
-    src: catalogue.service
-    dest: "/etc/systemd/system/{{ component }}.service"
+
        
 - name: mongo-setup
   import_role:

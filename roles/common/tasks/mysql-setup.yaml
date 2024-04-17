@@ -1,23 +1,21 @@
-- name: DISABLING MYSQL
-  shell: dnf module disable mysql -y
-
-- name:  COPYING MYSQL REPO
-  copy:
-    src: "{{component}}.repo"
-    dest: "/etc/yum.repos.d/{{component}}.repo"
-
-- name: install {{component}} server
+- name: MYSQL INSTALLATION
   dnf:
-    name: mysql-community-server
+    name: mysql
     state: present
 
-- name: START and Enabling MYSQL
-  service:
-    name: mysqld
-    state: started
-    enabled: true
+- name: check cities schema exists or not
+  ansible.builtin.command:  mysql -h mysql.gonepudirobot.online -uroot -p{{ MYSQL_PASS }} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
+  register: schema
 
-- name: CHANGING PASSWORD OF {{component}}
-  shell: "{{item}}"
-  loop:
-  - mysql_secure_installation --set-root-pass {{ MYSQL_PASS }}
+- name: print output
+  ansible.builtin.debug:
+    msg: "schema output: {{ schema }}"
+
+- name: load cities data
+  ansible.builtin.shell: "mysql -h mysql.gonepudirobot.online -uroot -p{{ MYSQL_PASS }}  < /app/schema/{{component}}.sql"
+  when: schema.stdout != "1"
+
+- name: RESTART SHIPPING SERVICE
+  systemd:
+    name: "{{component}}"
+    state: restarted
