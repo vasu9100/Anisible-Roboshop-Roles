@@ -43,6 +43,7 @@
   copy:
     src: roboshop.conf
     dest: /etc/nginx/default.d/roboshop.conf
+  notify: Restart NGINX Server  
 
 - name: Restart NGINX Server
   ansible.builtin.service:
