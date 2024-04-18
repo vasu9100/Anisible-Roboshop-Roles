@@ -39,7 +39,7 @@
 
 - name: Copy Main Configuration File
   copy:
-    src: "templates/roboshop.conf.j2"
+    src: "roboshop.conf"
     dest: /etc/nginx/default.d/roboshop.conf
   notify: Restart NGINX Server  
 
